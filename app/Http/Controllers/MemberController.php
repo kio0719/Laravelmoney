@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Member;
 
 class MemberController extends Controller
 {
@@ -13,16 +14,18 @@ class MemberController extends Controller
     }
 
     public function check(Request $request){
-        $rules=[
-            'name'=>'required',
-            'mail'=>'email',
-            'password'=>'alpha-num | confirmed'
-        ];
+       // $rules=[
+       //    'name'=>'required',
+        //    'mail'=>'email',
+       //     'password'=>'alpha-num | confirmed'
+       // ];
+
+       
         //メッセージ変える
         //Errorの位置が少しおかしい。赤色に変える
         //エラー持ってたらエラー表示して再送
         //できればあとでModelを使ってのバリデーションに変更する
-        $this->validate($request,$rules);
+        $this->validate($request,Member::$rules);
 
         return view('join.check',['item'=>$request->all()]);
     }
@@ -34,16 +37,25 @@ class MemberController extends Controller
     public function create(Request $request){
     //DBに追加する前に同じメールアドレスが登録されていないかチェック
 
-    //    $member = new Member;
+
+        $member = new Member;
+        $member->name = $request->name;
+        $member->email = $request->mail;
+        $member->password = Hash::make($request->password);
+        $member->save();
+
+
     //    $form = $request->all();
     //    unset($form['_token']);
     //    $member->fill($form)->save();
-    $param = [
-        'name'=> $request -> name,
-        'email' => $request -> mail,
-        'password'=>Hash::make($request->password),
-    ];
-    DB::table('members')->insert($param);
+
+
+    //$param = [
+    //    'name'=> $request -> name,
+    //    'email' => $request -> mail,
+    //    'password'=>Hash::make($request->password),
+    //];
+    //DB::table('members')->insert($param);
         return redirect('./join/complate');
     }
 

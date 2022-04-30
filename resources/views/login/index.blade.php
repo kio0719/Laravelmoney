@@ -24,6 +24,9 @@
     <tr><th>パスワード</th><td><input type="password" name="password"></td></tr>
 </table>
 <input type="submit" name="login">
+<br>
+<br>
+<a href="join">会員登録がお済でない方はこちらから</a>
 
 </form>
 

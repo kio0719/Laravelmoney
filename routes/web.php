@@ -15,9 +15,9 @@ use App\Http\Controllers\JoinController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {return view('welcome');});
+
+Route::get('/',[JoinController::class,'index']);
 
 Route::get('join',[Membercontroller::class,'add']);
 Route::post('join',[MemberController::class,'check']);
@@ -30,3 +30,4 @@ Route::get('join/recomplate',[MemberController::class,'recomplate']);
 
 Route::get('login',[JoinController::class,'login']);
 Route::post('login',[JoinController::class,'login_check']);
+Route::get('login/logout',[JoinController::class,'logout']);
