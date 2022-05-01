@@ -6,7 +6,7 @@
  
 <h2>以下の内容でよろしいでしょうか</h2>
 
-<form action="./join/check" method="POST">
+<form action="./check" method="POST">
 @csrf
 <table>
     <tr>
@@ -15,8 +15,8 @@
     <input type="hidden" name="name" value="{{$item['name']}}">
     </tr>
     <tr><th>メールアドレス</th>
-    <td>{{$item['mail']}}</td>
-    <input type="hidden" name="mail" value="{{$item['mail']}}">
+    <td>{{$item['email']}}</td>
+    <input type="hidden" name="email" value="{{$item['email']}}">
     </tr>
     <tr><th>パスワード</th>
     <td><p>パスワードは表示されません</p></td></tr>

@@ -24,7 +24,7 @@
 </ol>
 <!--   -->
 
-<a href="./login/logout">ログアウト</a>
+<a href="{{route('user.logout')}}">ログアウト</a>
 
 
 

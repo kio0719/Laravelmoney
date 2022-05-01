@@ -1,3 +1,4 @@
+
 @extends('layouts.laravelmoney')
 
 @section('title','会員登録')
@@ -8,7 +9,7 @@
 <p>入力に問題があります。再入力してください。</p>
 @endif
 
-<form action="join" method="POST">
+<form action="signup" method="POST">
 @csrf
 <table>
     @error('name')
@@ -18,11 +19,11 @@
     <th>ニックネーム</th>
     <td><input type="text" name="name" value="{{old('name')}}"></td>
     </tr>
-    @error('mail')
+    @error('email')
     <tr><th>ERROR:</th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>メールアドレス</th>
-    <td><input type="text" name="mail" value="{{old('mail')}}"></td>
+    <td><input type="text" name="email" value="{{old('email')}}"></td>
     </tr>
     @error('password')
     <tr><th>ERROR:</th><td>{{$message}}</td></tr>

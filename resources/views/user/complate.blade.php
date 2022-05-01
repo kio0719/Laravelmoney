@@ -19,10 +19,10 @@
     @enderror
     <dd><input type="text" name="target_amount" value="{{old('target_amount')}}">円</dd>
     <dt><p>いつまでに？</p></dt>
-    @error('target_month')
+    @error('deadline')
     <p>ERROR : {{$message}}</p>
     @enderror
-    <dd><input type="date" name="target_month" value="{{old('target_month')}}"></dd>
+    <dd><input type="date" name="deadline" value="{{old('deadline')}}"></dd>
     </dl>
     <input type="submit" value ="registar">
     </ul>

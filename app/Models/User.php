@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'target_amount',
+        'deadline',
     ];
 
     /**
@@ -41,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $guarded = array('id');
+
+    public static $rules = array(
+        'name'=>'required',
+        'email'=>'email | required|unique:users',
+        'password'=>'alpha-num | confirmed'
+);
 }

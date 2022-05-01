@@ -11,7 +11,7 @@
 @endif
 <!-- -->
 
-<form action="login" method="POST">
+<form action="signin" method="POST">
 @csrf
 <table>
     @error('mail')
@@ -26,7 +26,7 @@
 <input type="submit" name="login">
 <br>
 <br>
-<a href="join">会員登録がお済でない方はこちらから</a>
+<a href="{{route('user.signup')}}">会員登録がお済でない方はこちらから</a>
 
 </form>
 
