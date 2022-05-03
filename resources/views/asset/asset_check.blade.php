@@ -10,20 +10,19 @@
 @csrf
 <table>
     <tr>
-    <th>ニックネーム</th>
-    <td>{{$item['name']}}</td>
-    <input type="hidden" name="name" value="{{$item['name']}}">
+    <th>資産の種類</th>
+    <td>{{$item['asset_type_id']}}</td>
     </tr>
-    <tr><th>メールアドレス</th>
-    <td>{{$item['email']}}</td>
-    <input type="hidden" name="email" value="{{$item['email']}}">
+    <tr><th>資産名</th>
+    <td>{{$item['asset_name']}}</td>
     </tr>
-    <tr><th>パスワード</th>
-    <td><p>パスワードは表示されません</p></td></tr>
-    <input type="hidden" name="password" value="{{$item['password']}}">
-    <!--セッションでできるようにする-->
+    <tr><th>残高</th>
+    <td><p> {{$item['balance']}}</p></td></tr>
+    <tr><th>備考</th>
+    <td><p> {{$item['note']}}</p></td></tr>
     <tr><td><input type="button" onclick="history.back()" value="戻る"></td><td><input type="submit" value="登録する"></td></tr>
 </table>
+
 
 </form>
 

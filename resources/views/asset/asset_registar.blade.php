@@ -11,7 +11,7 @@
 @endif
 <!-- -->
 
-<form action="asset_registar" method="POST">
+<form action="./registar" method="POST">
 @csrf
 <table>
     @error('asset_type_id')

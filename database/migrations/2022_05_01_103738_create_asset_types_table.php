@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('asset_types', function (Blueprint $table) {
             $table->BigIncrements('asset_type_id');
+            $table->integer('member_id');
             $table->string('asset_type_name');
         });
     }

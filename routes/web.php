@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssetController;
@@ -59,7 +60,11 @@ Route::group(['prefix'=>'user'],function(){
 
 
 Route::group(['prefix'=>'asset'],function(){
-    Route::get('/registar',[AssetController::class,'getAssetRegistar'])->name('asset.registar');
+    Route::get('/registar',[AssetController::class,'getRegistar'])->name('asset.getregistar');
+    Route::post('/registar',[AssetController::class,'postRegistar'])->name('asset.postregistar');
+    Route::get('/check',[AssetController::class,'getcheck'])->name('asset.getcheck');
+    Route::post('/check',[AssetController::class,'postcheck'])->name('asset.postcheck');
+    Route::get('/complate',[AssetController::class,'getComplate'])->name('asset.getcomplate');
 });
 
 

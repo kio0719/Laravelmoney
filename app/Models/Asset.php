@@ -9,6 +9,14 @@ class Asset extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'member_id',
+        'asset_type_id',
+        'asset_name',
+        'balance',
+        'note',
+    ];
+
     protected $primaryKey = 'asset_id';
     protected $table = 'assets';
 }

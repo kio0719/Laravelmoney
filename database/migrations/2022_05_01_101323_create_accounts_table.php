@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->BigIncrements('account_id');
+            $table->integer('member_id');
             $table->string('account_name');
             $table->integer('division_id');
             $table->string('note');
