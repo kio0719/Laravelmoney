@@ -13,20 +13,20 @@
 @csrf
 <table>
     @error('name')
-    <tr><th>ERROR:</th><td>{{$message}}</td></tr>
+    <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr>
     <th>ニックネーム</th>
     <td><input type="text" name="name" value="{{old('name')}}"></td>
     </tr>
     @error('email')
-    <tr><th>ERROR:</th><td>{{$message}}</td></tr>
+    <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>メールアドレス</th>
     <td><input type="text" name="email" value="{{old('email')}}"></td>
     </tr>
     @error('password')
-    <tr><th>ERROR:</th><td>{{$message}}</td></tr>
+    <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>パスワード</th>
     <td><input type="password" name="password" value="{{old('password')}}"></td>

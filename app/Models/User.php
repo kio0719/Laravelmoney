@@ -46,9 +46,20 @@ class User extends Authenticatable
 
     protected $guarded = array('id');
 
-    public static $rules = array(
-        'name'=>'required',
-        'email'=>'email | required|unique:users',
-        'password'=>'alpha-num | confirmed'
-);
+  //  public static $rules = array(
+  //      'name'=>'required',
+  //      'email'=>'email | required|unique:users',
+  //      'password'=>'required | alpha-num | confirmed | min:4'
+//);
+
+  //  public static $messages = array(
+  //      'name.required' => '名前は必ず入力してください',
+  //      'email.email' => 'メールアドレスを入力してください',
+  //      'email.required' => 'メールアドレスは必ず入力してください',
+  //      'email.unique:users' => 'そのメールアドレスは既に登録されています',
+  //      'password.required' => 'パスワードは必ず入力してください',
+ //       'password.alpha-num' => ' パスワードはアルファベットか数字でご登録ください',
+  //      'password.confirm' => 'パスワードが一致していません',
+  //      'password.min:4'=>'パスワードは4文字以上でご登録ください'
+  //  );
 }

@@ -41,6 +41,9 @@
         padding-top:30px;
         text-align: center;
     }
+    .errorMessage{
+        color:red;
+    }
     </style>
 </head>
 <body>

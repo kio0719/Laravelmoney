@@ -14,16 +14,17 @@
 <form action="signin" method="POST">
 @csrf
 <table>
-    @error('mail')
-    <tr><th>ERROR:</th><td>{{$message}}</td></tr>
+    @error('email')
+    <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>メールアドレス</th><td><input type="text" name="mail"></td></tr>
     @error('password')
-    <tr><th>ERROR:</th><td>{{$message}}</td></tr>
+    <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>パスワード</th><td><input type="password" name="password"></td></tr>
+    <tr><th></th><td><input type="submit" name="login"></td></tr>
 </table>
-<input type="submit" name="login">
+
 <br>
 <br>
 <a href="{{route('user.signup')}}">会員登録がお済でない方はこちらから</a>

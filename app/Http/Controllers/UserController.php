@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UserRequest;
 use Auth;
 
 class UserController extends Controller
@@ -13,9 +14,9 @@ class UserController extends Controller
         return view('user.signup');
     }
 
-    public function postSignup(Request $request){
+    public function postSignup(UserRequest $request){
         //バリテーション    
-        $this->validate($request,User::$rules);
+ //       $this->validate($request,User::$rules,User::$messages);
         $asset_registar = [
             'name' => $request->name,
             'email'=> $request -> email,
@@ -77,11 +78,8 @@ class UserController extends Controller
         return view('user.signin');
     }
 
-    public function postsignin(Request $request){
-        $this->validate($request,[
-            'mail' => 'email | required',
-            'password' => 'required | min:4'
-        ]);
+    public function postsignin(UserRequest $request){
+    //    $this->validate($request,User::$rules,User::$messages);
 
         $email = $request->mail;
         $password = $request->password;
