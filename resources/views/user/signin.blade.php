@@ -27,8 +27,8 @@
 
 <br>
 <br>
-<a href="{{route('user.signup')}}">会員登録がお済でない方はこちらから</a>
-
+<p><a href="{{route('user.signup')}}">会員登録がお済でない方はこちらから</a></p>
+<p><a href="#">パスワードをお忘れになった方はこちらから</a></p>
 </form>
 
 @endsection

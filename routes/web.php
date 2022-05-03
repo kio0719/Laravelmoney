@@ -58,8 +58,8 @@ Route::group(['prefix'=>'user'],function(){
 });
 
 
-
-Route::group(['prefix'=>'asset'],function(){
+//asset
+Route::group(['prefix'=>'asset','middleware' => 'auth'],function(){
     Route::get('/registar',[AssetController::class,'getRegistar'])->name('asset.getregistar');
     Route::post('/registar',[AssetController::class,'postRegistar'])->name('asset.postregistar');
     Route::get('/check',[AssetController::class,'getcheck'])->name('asset.getcheck');
