@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\JoinController;
+use App\Http\Controllers\AssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +43,8 @@ Route::group(['prefix'=>'user'],function(){
         Route::post('/signup',[UserController::class,'postSignup'])->name('user.signup');
         Route::get('/check',[UserController::class,'getcheck']);
         Route::post('/check',[UserController::class,'postcheck']);
-        Route::get('/complate',[UserController::class,'getcomplate']);
-        Route::post('/complate',[UserController::class,'postcomplate']);
+ //       Route::get('/complate',[UserController::class,'getcomplate']);
+ //       Route::post('/complate',[UserController::class,'postcomplate']);
         Route::get('/recomplate',[UserController::class,'getrecomplate']);
         Route::get('/signin',[UserController::class,'getSignin'])->name('user.signin');
         Route::post('/signin',[UserController::class,'postSignin']);
@@ -54,6 +54,12 @@ Route::group(['prefix'=>'user'],function(){
         Route::get('/logout',[UserController::class,'getlogout'])->name('user.logout');
 });
 
+});
+
+
+
+Route::group(['prefix'=>'asset'],function(){
+    Route::get('/registar',[AssetController::class,'getAssetRegistar'])->name('asset.registar');
 });
 
 

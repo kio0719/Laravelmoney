@@ -16,7 +16,18 @@ class UserController extends Controller
     public function postSignup(Request $request){
         //バリテーション    
         $this->validate($request,User::$rules);
-        return view('user.check',['item'=>$request->all()]);
+        $asset_registar = [
+            'name' => $request->name,
+            'email'=> $request -> email,
+            'password'=>bcrypt($request->password),
+        ];
+        $request->session()->put('asset_registar',$asset_registar);
+        $sesdata = $request->session()->get('asset_registar'); 
+    // if($request->session()->has('asset_registar')){
+    //        $item = 'ok' ; }else{
+    //        $item= 'ng';
+    //    };
+        return view('user.check',['item'=>$asset_registar]);
     }
 
     public function getcheck(Request $request){
@@ -25,34 +36,38 @@ class UserController extends Controller
 
     public function postcheck(Request $request){
     
+            $sesdata = $request->session()->get('asset_registar');
             $user = new User([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password'=>bcrypt($request->password),
+                'name'=> $sesdata['name'],
+                'email'=> $sesdata['email'],
+                'password'=>$sesdata['password'],
             ]);
 
             $user->save();
-            return redirect('./user/complate');
+
+            $request->session()->forget('asset_registar');
+
+            return redirect('./user/recomplate');
         }
 
-    public function getcomplate(Request $request){
-        return view('user.complate');
-    }
+   // public function getcomplate(Request $request){
+   //     return view('user.complate');
+   // }
 
-    public function postcomplate(Request $request){
-        
-        $rules = [
-            'target_amount' => 'numeric | min:1',
-            'deadline' => 'date'
-        ];
-        $param = [
-            'target_amount' => $request->target_amount,
-            'deadline' => $request->deadline
-        ];
-        $this->validate($request,$rules);
-        DB::table('users')->where('id',$request->id)->update($param);
-        return redirect('./user/recomplate');
-    }
+   // public function postcomplate(Request $request){
+    //    
+    //    $rules = [
+   //         'target_amount' => 'numeric | min:1',
+    //        'deadline' => 'date'
+    //    ];
+    //    $param = [
+    //        'target_amount' => $request->target_amount,
+    //        'deadline' => $request->deadline
+    //    ];
+    //    $this->validate($request,$rules);
+    //    DB::table('users')->where('id',$request->id)->update($param);
+    //    return redirect('./user/recomplate');
+    //}
 
     public function getrecomplate(){
         return view('user.recomplate');
