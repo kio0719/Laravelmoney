@@ -41,19 +41,19 @@ Route::group(['prefix'=>'user'],function(){
     Route::group(['middleware'=>'guest'],function(){
         Route::get('/signup',[UserController::class,'getSignup'])->name('user.signup');
         Route::post('/signup',[UserController::class,'postSignup'])->name('user.signup');
-        Route::get('/check',[UserController::class,'getcheck']);
-        Route::post('/check',[UserController::class,'postcheck']);
+        Route::get('/check',[UserController::class,'getcheck'])->name('user.getcheck');
+        Route::post('/check',[UserController::class,'postcheck'])->name('user.postcheck');
  //       Route::get('/complate',[UserController::class,'getcomplate']);
  //       Route::post('/complate',[UserController::class,'postcomplate']);
-        Route::get('/recomplate',[UserController::class,'getrecomplate']);
+        Route::get('/recomplate',[UserController::class,'getrecomplate'])->name('user.getrecomplate');
         Route::get('/signin',[UserController::class,'getSignin'])->name('user.signin');
         Route::post('/signin',[UserController::class,'postSignin']);
     });
     Route::group(['middleware'=>'auth'],function(){
         Route::get('/profile',[UserController::class,'getProfile'])->name('user.profile');
-        Route::get('/logout',[UserController::class,'getlogout'])->name('user.logout');
+        Route::get('/logout',[UserController::class,'getlogout'])->name('user.getlogout');
 });
-
+        Route::get('/fails',[UserController::class,'getfails'])->name('user.getfails');
 });
 
 

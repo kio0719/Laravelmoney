@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserLoginRequest;
 use Auth;
 
 class UserController extends Controller
@@ -17,27 +18,34 @@ class UserController extends Controller
     public function postSignup(UserRequest $request){
         //バリテーション    
  //       $this->validate($request,User::$rules,User::$messages);
-        $asset_registar = [
+        $user_registar = [
             'name' => $request->name,
             'email'=> $request -> email,
             'password'=>bcrypt($request->password),
         ];
-        $request->session()->put('asset_registar',$asset_registar);
-        $sesdata = $request->session()->get('asset_registar'); 
+        $request->session()->put('user_registar',$user_registar);
+    //    $sesdata = $request->session()->get('asset_registar'); 
     // if($request->session()->has('asset_registar')){
     //        $item = 'ok' ; }else{
     //        $item= 'ng';
     //    };
-        return view('user.check',['item'=>$asset_registar]);
+    //    return view('user.check',['item'=>$asset_registar]);
+        return redirect()->route('user.getcheck');
     }
 
     public function getcheck(Request $request){
-        return view('user.check',['item'=>'']);
+        $sesdata = $request->session()->get('user_registar');
+
+        if(!$sesdata){
+            return redirect()->route('user.signup');
+        }
+
+        return view('user.check',['item'=>$sesdata]);
     }
 
     public function postcheck(Request $request){
     
-            $sesdata = $request->session()->get('asset_registar');
+            $sesdata = $request->session()->get('user_registar');
             $user = new User([
                 'name'=> $sesdata['name'],
                 'email'=> $sesdata['email'],
@@ -46,9 +54,9 @@ class UserController extends Controller
 
             $user->save();
 
-            $request->session()->forget('asset_registar');
+            $request->session()->forget('user_registar');
 
-            return redirect('./user/recomplate');
+            return redirect()->route('user.getrecomplate');
         }
 
    // public function getcomplate(Request $request){
@@ -78,14 +86,16 @@ class UserController extends Controller
         return view('user.signin');
     }
 
-    public function postsignin(UserRequest $request){
+    public function postsignin(UserLoginRequest $request){
     //    $this->validate($request,User::$rules,User::$messages);
 
-        $email = $request->mail;
+        $email = $request->email;
         $password = $request->password;
         if(Auth::attempt(['email' => $email,'password'=>$password])){
-            return view('user.profile');
+          //  return redirect()->route('user.getprofile');
+          return view('user.profile');
         }else{
+        //    return redirect()->route('user.getfails');
             return view('user.fails');
         }
     }
@@ -97,6 +107,10 @@ class UserController extends Controller
     public function getlogout(){
         Auth::logout();
         return view('user.signin');
+    }
+
+    public function getfails(){
+        return view('user.fails');
     }
     
 }

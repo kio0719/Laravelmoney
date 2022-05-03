@@ -17,7 +17,7 @@
     @error('email')
     <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
-    <tr><th>メールアドレス</th><td><input type="text" name="mail"></td></tr>
+    <tr><th>メールアドレス</th><td><input type="text" name="email"></td></tr>
     @error('password')
     <tr class="errorMessage"><th></th><td>{{$message}}</td></tr>
     @enderror
