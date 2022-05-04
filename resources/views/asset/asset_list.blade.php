@@ -25,7 +25,7 @@
     </tr>
    @endforeach
 </table>
-<p>合計額:{{$balance_sum}} 円</p>
+<p><a href="{{route('asset.getregistar')}}"><input type="button"value="資産登録"></a> | 合計額:{{$balance_sum}} 円</p>
 @else
     <p>資産が登録されていません。</p>
     <p><a href="{{route('asset.getregistar')}}">資産登録を行う</a></p>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class AssetRequest extends FormRequest
 {
@@ -21,10 +22,10 @@ class AssetRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'asset_num'=>'required | numeric | unique:assets',
+            'asset_num'=>'required | numeric | unique:assets,asset_name,'.$request -> asset_id.',asset_id',
             'asset_type_id'=>'numeric | required',
             'asset_name'=>'required',
             'balance'=>'required | numeric',
