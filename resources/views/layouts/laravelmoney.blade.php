@@ -44,15 +44,24 @@
     .errorMessage{
         color:red;
     }
+    table{
+        border:solid #432 1px;
+        border-collapse: collapse;
+        margin:5rem;
+    }
+    td,th{ 
+        border:solid #432 1px;
+     padding:0.5rem 1rem;
+    }
     </style>
 </head>
 <body>
 <header>
     <div class="wrapper">
-    <h1 class="title">@yield('title')</h1>
+    <h1 class="title">LaravelMoney</h1>
     </div>
 </header>
-
+<h2>@yield('title')</h2>
 
 <main>
 @yield('content')

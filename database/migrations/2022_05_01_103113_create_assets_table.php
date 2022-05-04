@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->BigIncrements('asset_id');
             $table->integer('member_id');
+            $table->integer('asset_num');
             $table->integer('asset_type_id');
             $table->string('asset_name');
             $table->integer('balance');
-            $table->string('note');
+            $table->string('asset_note');
             $table->timestamps();
         });
     }

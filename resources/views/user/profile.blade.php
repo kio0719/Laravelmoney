@@ -13,7 +13,7 @@
 <li><a href="#">資産</a></li>
     <ol>
         <li><a href="{{route('asset.getregistar')}}">登録</a></li>
-        <li><a href="#">一覧</a></li>
+        <li><a href="{{route('asset.getlist')}}">一覧</a></li>
         <li><a href="#">登録内容変更</a></li>
         <li><a href="#">削除</a></li>
     </ol>

@@ -24,6 +24,7 @@ class AssetRequest extends FormRequest
     public function rules()
     {
         return [
+            'asset_num'=>'required | numeric | unique:assets',
             'asset_type_id'=>'numeric | required',
             'asset_name'=>'required',
             'balance'=>'required | numeric',
@@ -32,11 +33,14 @@ class AssetRequest extends FormRequest
 
     public function messages(){
         return [
+            'asset.required' => '必須項目です',
+            'asset.numeric' => '数字でご入力ください',
+            'asset.unique' => 'その番号はすでに登録されています',
             'asset_type_id.required'=>'必須項目です。',
-            'asset_tpe_id.numeric'=>'数字でお答えください',
+            'asset_type_id.numeric'=>'数字でご入力ください',
             'asset_name.required'=>'必須項目です',
             'balance.required'=>'必須項目です',
-            'balance.numeric'=>'数字でお答えください',
+            'balance.numeric'=>'数字でご入力ください',
         ];
     }
 }
