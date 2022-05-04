@@ -26,8 +26,7 @@ class Asset extends Model
     }
 
     public function getAssetType(){
-        return $this->asset_type_id 
-        . ':' . $this->assettype->asset_type_name ;
+        return  $this->assettype->asset_type_name ;
     }
 
 

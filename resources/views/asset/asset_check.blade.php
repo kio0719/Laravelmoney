@@ -24,9 +24,8 @@
     <td><p> {{$item['balance']}}</p></td></tr>
     <tr><th>備考</th>
     <td><p> {{$item['asset_note']}}</p></td></tr>
-    <tr><td><input type="button" onclick="history.back()" value="戻る"></td><td><input type="submit" value="登録する"></td></tr>
 </table>
-
+<input type="button" onclick="history.back()" value="戻る"> | <input type="submit" value="登録する">
 
 </form>
 

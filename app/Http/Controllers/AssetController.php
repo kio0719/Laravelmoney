@@ -68,6 +68,7 @@ class AssetController extends Controller
         $items = Asset::where('member_id',Auth::id())->orderBy('asset_num','asc')->get();
         $balance_sum = Asset::where('member_id',Auth::id())->sum('balance');
         $asset_types= AssetType::all();
+ 
         return view('asset.asset_list',['items'=>$items,'asset_types'=>$asset_types,'balance_sum'=>$balance_sum]);
     }
 
@@ -98,6 +99,30 @@ class AssetController extends Controller
 
         $request->session()->forget('asset_select');
 
-        return redirect()->route('asset.getlist');
+        return redirect()->route('asset.getlist')->with(['msg'=>'登録内容を変更しました']);
+    }
+
+    public function getdelete(Request $request,int $asset_select){
+        $asset = Asset::where('asset_id',$asset_select)->first();
+        $asset_type= Asset::find($asset_select);
+        if(!$asset){
+            return redirect()->route('asset.getlist')->with(['msg'=>'データが存在してません']);
+            }
+        $request->session()->put('asset_delete_data',$asset_select);
+        
+        return view('asset.asset_delete',['item' => $asset,'asset_type'=>$asset_type]);
+    }
+
+    public function postdelete(Request $request){
+        $sessdata = $request->session()->get('asset_delete_data');
+        if(!(Asset::find($sessdata)->get())){
+        return redirect()->route('asset.getlist')->with(['msg'=>'データが存在してません']);;
+        }
+        Asset::find($sessdata)->delete();
+
+        $request->session()->forget('asset_delete_data');
+
+        return redirect()->route('asset.getlist')->with(['msg'=>'データを削除しました']);
     }
 }
+
