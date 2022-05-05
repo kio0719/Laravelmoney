@@ -46,6 +46,9 @@ class UserController extends Controller
     public function postcheck(Request $request){
     
             $sesdata = $request->session()->get('user_registar');
+            if(!$sesdata){
+                return redirect()->route('user.signup');
+            }
             $user = new User([
                 'name'=> $sesdata['name'],
                 'email'=> $sesdata['email'],
@@ -92,11 +95,11 @@ class UserController extends Controller
         $email = $request->email;
         $password = $request->password;
         if(Auth::attempt(['email' => $email,'password'=>$password])){
-          //  return redirect()->route('user.getprofile');
-          return view('user.profile');
+            return redirect()->route('user.profile');
+        //  return view('user.profile');
         }else{
-        //    return redirect()->route('user.getfails');
-            return view('user.fails');
+            return redirect()->route('user.getfails');
+         //   return view('user.fails');
         }
     }
 

@@ -36,6 +36,9 @@ class AssetController extends Controller
 
     public function getcheck(Request $request){
         $sessdata = $request->session()->get('assetdata');
+        if(!$sessdata){
+            return redirect()->route('user.profile');
+        }
 
         $asset_type= AssetType::where('asset_type_id',$sessdata['asset_type_id'])->first();
 
@@ -44,6 +47,9 @@ class AssetController extends Controller
 
     public function postCheck(Request $request){
         $sessdata = $request->session()->get('assetdata');
+        if(!$sessdata){
+            return redirect()->route('user.profile');
+        }
         $asset = new Asset([
             'member_id' => Auth::id(),
             'asset_num' => $sessdata['asset_num'],
@@ -67,9 +73,8 @@ class AssetController extends Controller
     public function getlist(Request $request){
         $items = Asset::where('member_id',Auth::id())->orderBy('asset_num','asc')->get();
         $balance_sum = Asset::where('member_id',Auth::id())->sum('balance');
-        $asset_types= AssetType::all();
  
-        return view('asset.asset_list',['items'=>$items,'asset_types'=>$asset_types,'balance_sum'=>$balance_sum]);
+        return view('asset.asset_list',['items'=>$items,'balance_sum'=>$balance_sum]);
     }
 
     public function getChange(Request $request,int $asset_select){
@@ -82,6 +87,9 @@ class AssetController extends Controller
     }
     public function postChange(AssetRequest $request){
         $sessdata = $request->session()->get('asset_select');
+        if(!$sessdata){
+            return redirect()->route('user.profile');
+        }
         $asset = Asset::find($sessdata);
         $form = $request->all();
         unset($form['__token']);
@@ -115,7 +123,8 @@ class AssetController extends Controller
 
     public function postdelete(Request $request){
         $sessdata = $request->session()->get('asset_delete_data');
-        if(!(Asset::find($sessdata)->get())){
+
+        if(!$sessdata){
         return redirect()->route('asset.getlist')->with(['msg'=>'データが存在してません']);;
         }
         Asset::find($sessdata)->delete();

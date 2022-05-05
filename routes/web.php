@@ -4,6 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AccountController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +76,14 @@ Route::group(['prefix'=>'asset','middleware' => 'auth'],function(){
 
 });
 
+
+
+Route::group(['prefix'=>'account','middleware'=>'auth'],function(){
+  Route::get('/registar',[AccountController::class,'getregistar'])->name('account.getregistar');
+  Route::post('/registar',[AccountController::class,'postregistar'])->name('account.postregistar');
+  Route::get('/check',[Accountcontroller::class,'getcheck'])->name('account.getcheck');
+  Route::post('/check',[Accountcontroller::class,'postcheck'])->name('account.postcheck');
+});
 
 //signin
 // Route::get('loginin',[JoinController::class,'login']);

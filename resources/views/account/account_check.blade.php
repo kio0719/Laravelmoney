@@ -10,20 +10,18 @@
 @csrf
 <table>
     <tr>
-    <th>資産番号</th>
-    <td>{{number_format($item['asset_num'])}}</td>
+    <th>勘定科目番号</th>
+    <td>{{number_format($item['account_num'])}}</td>
     </tr>
     <tr>
-    <th>資産の種類</th>
-    <td>{{$asset_type->getAssetType()}}</td>
+    <th>収支区分</th>
+    <td>{{$division->division_name}}</td>
     </tr>
-    <tr><th>資産名</th>
-    <td>{{$item['asset_name']}}</td>
-    </tr>
-    <tr><th>残高</th>
-    <td><p> {{number_format($item['balance'])}} 円</p></td></tr>
+    <tr><th>勘定科目名</th>
+    <td>{{$item['account_name']}}</td>
+    </tr>    
     <tr><th>備考</th>
-    <td><p> {{$item['asset_note']}}</p></td></tr>
+    <td><p> {{$item['account_note']}}</p></td></tr>
 </table>
 <input type="button" onclick="history.back()" value="戻る"> | <input type="submit" value="登録する">
 

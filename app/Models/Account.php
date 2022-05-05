@@ -9,7 +9,23 @@ class Account extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'member_id',
+        'account_num',
+        'account_name',
+        'division_id',
+        'account_note',
+    ];
+
     protected $primaryKey = 'account_id';
     protected $table = 'accounts';
     public $timestamps = false;
+
+    public function division(){
+        return $this->belogsTo('App\Model\Division','division_id');
+    }
+
+    public function getdivision(){
+        return $this->division->division_name;
+    }
 }
