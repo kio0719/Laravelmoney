@@ -66,7 +66,7 @@ class AssetController extends Controller
         return redirect()->route('asset.getlist')->with(['msg'=>'資産を登録しました。']);
     }
 
-    
+
     public function getlist(Request $request){
         $items = Asset::where('member_id',Auth::id())->orderBy('asset_num','asc')->get();
         $balance_sum = Asset::where('member_id',Auth::id())->sum('balance');
@@ -76,7 +76,7 @@ class AssetController extends Controller
 
     public function getChange(Request $request,int $asset_select){
         $request->session()->put('asset_select',$asset_select);
-        $asset = Asset::where('asset_id',$asset_select)->first();
+        $asset = Asset::where('asset_id',$asset_select)->where('member_id',Auth::id())->first();
         $asset_types= AssetType::all();
         return view('asset.asset_change',['item' => $asset,'asset_types'=>$asset_types]);
     //    return view('pra',['item' => $asset,'asset_types' => $asset_types]);
@@ -85,7 +85,7 @@ class AssetController extends Controller
     public function postChange(AssetRequest $request){
         $sessdata = $request->session()->get('asset_select');
         if(!$sessdata){
-            return redirect()->route('user.profile');
+            return redirect()->route('asset.getlist')->with(['msg'=>'データが存在していません。']);
         }
         $asset = Asset::find($sessdata);
         $form = $request->all();

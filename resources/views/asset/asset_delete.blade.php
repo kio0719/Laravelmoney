@@ -18,7 +18,7 @@
 
     <tr><th>資産番号</th><td>{{$item['asset_num']}}</td></tr>
 
-    <tr><th>資産の種類</th><td>{{$asset_type->getAssetType()}}</td></tr>
+    <tr><th>資産の種類</th><td>{{$item->assettype->asset_type_name}}</td></tr>
 
 
     <tr><th>資産名</th><td>{{$item['asset_name']}}</td></tr>

@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
+    //
+    //
+    //
+    //登録処理
+    //
+    //
+    //
+
     public function getRegistar(Request $request){
         $divisions= Division::all();
         return view('account.account_registar',['divisions'=>$divisions]);
@@ -34,7 +42,7 @@ class AccountController extends Controller
     public function getCheck(Request $request){
         $sessdata = $request->session()->get('accountdata');
         if(!$sessdata){
-            return redirect()->route('user.profile');
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
         $division = Division::where('division_id',$sessdata['division_id'])->first();
 
@@ -61,9 +69,82 @@ class AccountController extends Controller
         return redirect()->route('account.getlist')->with(['msg'=>'勘定科目を登録しました']);
     }
 
+    //
+    //
+    //
+    //登録内容一覧
+    //
+    //
+    //
+
     public function getlist(Request $request){
         $accounts = Account::where('member_id',Auth::id())->orderBy('account_num','asc')->get();
 
         return view('account.account_list',['items' => $accounts]);
     }
+
+    //
+    //
+    //
+    //内容変更
+    //
+    //
+    //
+
+    public function getChange(Request $request,$account_select){
+        $request->session()->put('account_select',$account_select);
+        $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
+        if(!$account){
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
+        }
+        $divisions = Division::all();
+        
+        return view('account.account_change',['item'=>$account,'divisions'=>$divisions]);
+    }
+
+    public function postChange(Request $request){
+        $sessdata = $request->session()->get('account_select');
+        if(!$sessdata){
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
+        }
+        $account = Account::find($sessdata);
+        $form = $request->all();
+        unset($form['__token']);
+        $account->fill($form)->save();
+
+        $request->session()->forget('account_select');
+
+        return redirect()->route('account.getlist')->with(['msg'=>'登録内容を変更しました。']);
+    }
+    
+    //
+    //
+    //
+    //削除
+    //
+    //
+    //
+
+    public function getDelete(Request $request,$account_select){
+        $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
+        if(!$account){
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
+        }
+        $request->session()->put('account_delete_data',$account_select);
+
+        return view('account.account_delete',['item'=>$account]);
+    }
+
+    public function postDelete(Request $request){
+        $sessdata = $request->session()->get('account_delete_data');
+        if(!$sessdata){
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
+        }
+        Account::find($sessdata)->delete();
+
+        $request->session()->forget('account_delete_data');
+
+        return redirect()->route('account.getlist')->with(['msg'=>'データを削除しました。']);
+    }
+
 }

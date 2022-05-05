@@ -82,11 +82,10 @@ Route::group(['prefix'=>'account','middleware'=>'auth'],function(){
   Route::get('/check',[Accountcontroller::class,'getcheck'])->name('account.getcheck');
   Route::post('/check',[Accountcontroller::class,'postcheck'])->name('account.postcheck');
   Route::get('/list',[AccountController::class,'getlist'])->name('account.getlist');
-
-
-  
   Route::get('/change/{account_select?}',[AccountController::class,'getchange'])->name('account.getchange');
   Route::post('/change/{account_select?}',[AccountController::class,'postchange'])->name('account.postchange');
+  
+  
   Route::get('/delete/{account_select?}',[AccountController::class,'getdelete'])->name('account.getdelete');
   Route::post('/delete/{account_select?}',[AccountController::class,'postdelete'])->name('account.postdelete');
 
