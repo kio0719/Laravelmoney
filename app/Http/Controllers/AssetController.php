@@ -66,10 +66,7 @@ class AssetController extends Controller
         return redirect()->route('asset.getlist')->with(['msg'=>'資産を登録しました。']);
     }
 
-    public function getComplate(){
-        return view('asset.asset_complate');
-    }
-
+    
     public function getlist(Request $request){
         $items = Asset::where('member_id',Auth::id())->orderBy('asset_num','asc')->get();
         $balance_sum = Asset::where('member_id',Auth::id())->sum('balance');

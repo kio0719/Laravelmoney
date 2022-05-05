@@ -58,6 +58,12 @@ class AccountController extends Controller
 
         $request->session()->forget('accountdata');
 
-        return redirect()->route('asset.getcomplate');
+        return redirect()->route('account.getlist')->with(['msg'=>'勘定科目を登録しました']);
+    }
+
+    public function getlist(Request $request){
+        $accounts = Account::where('member_id',Auth::id())->orderBy('account_num','asc')->get();
+
+        return view('account.account_list',['items' => $accounts]);
     }
 }

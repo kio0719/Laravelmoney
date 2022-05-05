@@ -22,7 +22,7 @@ class Account extends Model
     public $timestamps = false;
 
     public function division(){
-        return $this->belogsTo('App\Model\Division','division_id');
+        return $this->belongsTo('App\Models\Division','division_id');
     }
 
     public function getdivision(){

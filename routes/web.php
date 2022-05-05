@@ -66,9 +66,7 @@ Route::group(['prefix'=>'asset','middleware' => 'auth'],function(){
     Route::post('/registar',[AssetController::class,'postRegistar'])->name('asset.postregistar');
     Route::get('/check',[AssetController::class,'getcheck'])->name('asset.getcheck');
     Route::post('/check',[AssetController::class,'postcheck'])->name('asset.postcheck');
-    Route::get('/complate',[AssetController::class,'getComplate'])->name('asset.getcomplate');
     Route::get('/list',[AssetController::class,'getList'])->name('asset.getlist');
-  //  Route::get('/change',[AssetController::class,'getChange'])->name('asset.getchange');
     Route::get('/change/{asset_select?}',[AssetController::class,'getChange'])->name('asset.getchange');
     Route::post('/change/{asset_select?}',[AssetController::class,'postChange'])->name('asset.postchange');
     Route::get('/delete/{asset_select?}',[AssetController::class,'getdelete'])->name('asset.getdelete');
@@ -83,6 +81,15 @@ Route::group(['prefix'=>'account','middleware'=>'auth'],function(){
   Route::post('/registar',[AccountController::class,'postregistar'])->name('account.postregistar');
   Route::get('/check',[Accountcontroller::class,'getcheck'])->name('account.getcheck');
   Route::post('/check',[Accountcontroller::class,'postcheck'])->name('account.postcheck');
+  Route::get('/list',[AccountController::class,'getlist'])->name('account.getlist');
+
+
+  
+  Route::get('/change/{account_select?}',[AccountController::class,'getchange'])->name('account.getchange');
+  Route::post('/change/{account_select?}',[AccountController::class,'postchange'])->name('account.postchange');
+  Route::get('/delete/{account_select?}',[AccountController::class,'getdelete'])->name('account.getdelete');
+  Route::post('/delete/{account_select?}',[AccountController::class,'postdelete'])->name('account.postdelete');
+
 });
 
 //signin
