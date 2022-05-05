@@ -63,7 +63,7 @@ class AssetController extends Controller
 
         $request->session()->forget('assetdata');
 
-        return redirect()->route('asset.getcomplate');
+        return redirect()->route('asset.getlist')->with(['msg'=>'資産を登録しました。']);
     }
 
     public function getComplate(){
