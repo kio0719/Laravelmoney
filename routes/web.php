@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -83,11 +84,30 @@ Route::group(['prefix'=>'account','middleware'=>'auth'],function(){
   Route::post('/check',[Accountcontroller::class,'postcheck'])->name('account.postcheck');
   Route::get('/list',[AccountController::class,'getlist'])->name('account.getlist');
   Route::get('/change/{account_select?}',[AccountController::class,'getchange'])->name('account.getchange');
-  Route::post('/change/{account_select?}',[AccountController::class,'postchange'])->name('account.postchange');
-  
-  
+  Route::post('/change/{account_select?}',[AccountController::class,'postchange'])->name('account.postchange');  
   Route::get('/delete/{account_select?}',[AccountController::class,'getdelete'])->name('account.getdelete');
   Route::post('/delete/{account_select?}',[AccountController::class,'postdelete'])->name('account.postdelete');
+
+});
+
+
+//
+//
+//
+//Log
+//
+//
+//
+
+Route::group(['prefix'=>'log','middleware'=>'auth'],function(){
+  Route::get('/registar',[LogController::class,'getRegistar'])->name('log.getregistar');
+  Route::post('/registar',[LogController::class,'postRegistar'])->name('log.postregistar');
+  Route::get('/atlist',[LogController::class,'getatlist'])->name('log.getatlist');
+  Route::get('/aslist',[LogController::class,'getaslist'])->name('log.getaslist');
+  Route::get('/change/{log_select?}',[LogController::class,'getchange'])->name('log.getchange');
+  Route::post('/change/{log_select?}',[LogController::class,'postchange'])->name('log.postchange');  
+  Route::get('/delete/{log_select?}',[LogController::class,'getdelete'])->name('log.getdelete');
+  Route::post('/delete/{log_select?}',[LogController::class,'postdelete'])->name('log.postdelete');
 
 });
 

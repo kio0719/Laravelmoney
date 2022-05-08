@@ -28,4 +28,8 @@ class Account extends Model
     public function getdivision(){
         return $this->division->division_name;
     }
+
+    public function getdivisionid(){
+        return $this->division->division_id;
+    }
 }

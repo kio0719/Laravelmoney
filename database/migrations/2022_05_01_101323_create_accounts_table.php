@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('account_num');
             $table->string('account_name');
             $table->integer('division_id');
-            $table->string('note');
+            $table->string('account_note');
         });
     }
 
