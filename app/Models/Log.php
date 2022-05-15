@@ -20,6 +20,11 @@ class Log extends Model
         'asset_balance'
     ];
 
+    protected $dates = [
+        'use_date',
+        'withdrawal_date',
+    ];
+
     protected function account(){
         return $this->belongsTo('App\Models\Account','account_id');
     }
@@ -30,6 +35,10 @@ class Log extends Model
 
     public function getDivisionName(){
         return $this->account->getdivision();
+    }
+
+    public function getDivisionId(){
+        return $this->account->getdivisionid();
     }
 
 

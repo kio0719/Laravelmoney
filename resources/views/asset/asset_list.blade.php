@@ -9,8 +9,16 @@
 <!--<form action="./check" method="POST">
 @csrf-->
 @if(!($items->isEmpty()))
+合計額:{{$balance_sum}} 円
 <table>
-    <tr><th></th><th>資産番号</th><th>資産の種類</th><th>資産名</th><th>残高</th><th>備考</th></tr>
+    <tr>
+        <th></th>
+        <th><a href="{{route('asset.getlist',['sort'=>'asset_num'])}}">資産番号</a></th>
+        <th><a href="{{route('asset.getlist',['sort'=>'asset_type_id'])}}">資産の種類</a></th>
+        <th><a href="{{route('asset.getlist',['sort'=>'asset_name'])}}">資産名</a></th>
+        <th><a href="{{route('asset.getlist',['sort'=>'asset_balance'])}}">残高</a></th>
+        <th><a href="{{route('asset.getlist',['sort'=>'asset_note'])}}">備考</a></th>
+    </tr>
     @foreach($items as $item)
     <tr>
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
@@ -20,12 +28,13 @@
         <td>{{$item['asset_num']}}</td>
         <td>{{$item->getAssetType()}}</td>
         <td>{{$item['asset_name']}}</td>
-        <td>{{$item['balance']}}円</td>
+        <td>{{number_format($item['balance'])}}円</td>
         <td>{{$item['asset_note']}}</td>
     </tr>
    @endforeach
 </table>
-<p><a href="{{route('asset.getregistar')}}"><input type="button"value="資産登録"></a> | 合計額:{{$balance_sum}} 円</p>
+{{$items->links()}}
+<p><a href="{{route('asset.getregistar')}}"><input type="button"value="資産登録"></a> </p>
 @else
     <p>資産が登録されていません。</p>
     <p><a href="{{route('asset.getregistar')}}">資産登録を行う</a></p>

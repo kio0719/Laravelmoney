@@ -68,7 +68,11 @@ class AssetController extends Controller
 
 
     public function getlist(Request $request){
-        $items = Asset::where('member_id',Auth::id())->orderBy('asset_num','asc')->get();
+        $sort=$request->sort;
+        if(!$sort){
+            $sort='asset_num';
+        }
+        $items = Asset::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(5);
         $balance_sum = Asset::where('member_id',Auth::id())->sum('balance');
  
         return view('asset.asset_list',['items'=>$items,'balance_sum'=>$balance_sum]);

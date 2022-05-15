@@ -26,7 +26,7 @@ class AccountController extends Controller
     public function postRegistar(AccountRequest $request){
         $account_note = $request->account_note;
         if(!$account_note){
-            $account_note = '特になし';
+            $account_note = '-';
         }
         $accountdata =[
             'account_num'=>$request->account_num,
@@ -78,7 +78,11 @@ class AccountController extends Controller
     //
 
     public function getlist(Request $request){
-        $accounts = Account::where('member_id',Auth::id())->orderBy('account_num','asc')->get();
+        $sort = $request->sort;
+        if(!$sort){
+            $sort='account_num';
+        }
+        $accounts = Account::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(10);
 
         return view('account.account_list',['items' => $accounts]);
     }

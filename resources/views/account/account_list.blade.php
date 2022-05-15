@@ -10,7 +10,13 @@
 @csrf-->
 @if(!($items->isEmpty()))
 <table>
-    <tr><th></th><th>勘定科目番号</th><th>収支区分</th><th>勘定科目名</th><th>備考</th></tr>
+    <tr>
+        <th></th>
+        <th><a href="{{route('account.getlist',[ 'sort' => 'account_num' ] ) }}">勘定科目番号</a></th>
+        <th><a href="{{route('account.getlist',[ 'sort' => 'division_id' ] )}}">収支区分</a></th>
+        <th><a href="{{route('account.getlist',[ 'sort' => 'account_name' ] )}}">勘定科目名</a></th>
+        <th><a href="{{route('account.getlist',[ 'sort' => 'account_note' ] )}}">備考</a></th>
+    </tr>
     @foreach($items as $item)
     <tr>
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
@@ -24,9 +30,10 @@
     </tr>
    @endforeach
 </table>
-<p><a href="{{route('account.getregistar')}}"><input type="button"value="資産登録"></a>
+{{$items->links()}}
+<p><a href="{{route('account.getregistar')}}"><input type="button"value="勘定科目登録"></a>
 @else
-    <p>資産が登録されていません。</p>
+    <p>勘定科目が登録されていません。</p>
     <p><a href="{{route('account.getregistar')}}">勘定科目登録を行う</a></p>
    @endif
 

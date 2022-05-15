@@ -6,36 +6,57 @@
 
 
 <p>{{session('msg')}}</p><br>
-<!--<form action="./check" method="POST">
-@csrf-->
-@if(!($items->isEmpty()))
+<form action="{{route('log.postaslist')}}" method="POST">
+@csrf
+<p>資産</p><select name="asset_id">
+@foreach($assets as $asset)
+    <option value="{{$asset['asset_id']}}">{{$asset['asset_name']}}</option>
+@endforeach
+    <option value="all">すべて</option>
+</select>
+<input type="date" name="dateb" value="{{old('date1')}}">～<input type="date" name="datea" value="{{old('date2')}}">
+<input type="submit" value="search">
+</form>
+
+<hr>
+
+
+@if($count > 0)
+<p>{{$dateb}} ~ {{$datea}}の検索結果</p>
 <table>
-    <tr><th></th><th>使用日</th><th>引落日</th><th>収支区分</th><th>変更資産</th><th>残高</th><th>備考</th></tr>
+    <tr>
+        <th></th>
+        <th>日付</th>
+        <th>資産</th>
+        <th>残高</th>
+    </tr>
     @foreach($items as $item)
     <tr>
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
 -->
-<td><a href="{{route('log.getchange',['aslog_select' => $item['log_id'] ])}}"><input type="button" value="変更する"></a> | 
-<a href="{{route('log.getdelete',['aslog_select' => $item['log_id'] ])}}"><input type="button" value="削除する"></a></td>     
-        <td>{{$item['use_date']}}</td>
-        <td>{{$item['withdrawal_date']}}</td>
-        <td>{{$item->getDivisionName()}}</td>
+<td><a href="{{route('log.getdetail',['aslog_select' => $item['log_id'] ])}}"><input type="button" value="詳細"></a></td>     
+        <td>{{$item['withdrawal_date']->format('Y-m-d')}}</td>
         <td>{{$item->asset->asset_name}}</td>
-        <td>{{$item['asset_balance']}}</td>
-        <td>{{$item['log_note']}}</td>
+        <td>{{number_format($item['asset_balance'])}}円</td>
     </tr>
    @endforeach
 </table>
-<p><a href="{{route('log.getregistar')}}"><input type="button"value="資産登録"></a>
-@else
-    <p>収支履歴が登録されていません。</p>
-    <p><a href="{{route('log.getregistar')}}">を行う</a></p>
-   @endif
+<p>{{$count}}件の履歴がありました。</p>
+{{$items->links()}}
+
+<hr>
+
+@elseif($count==0)
+<p>{{$dateb}} ~ {{$datea}}の検索結果</p>
+<p>{{$count}}件の履歴がありました。</p>
+<hr>
+@endif
+
 
 
 <p><a href="{{route('user.profile')}}"><input type="button"value="戻る"></a></p>
 
 
-<!--</form>-->
+
 
 @endsection

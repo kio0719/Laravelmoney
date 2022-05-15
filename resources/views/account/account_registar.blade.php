@@ -14,7 +14,7 @@
 <form action="./registar" method="POST">
 @csrf
 <table>
-@error('account_num')
+    @error('account_name')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>勘定科目番号</th><td><input type="text" name="account_num"></td></tr>
