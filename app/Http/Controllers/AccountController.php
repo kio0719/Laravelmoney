@@ -83,8 +83,40 @@ class AccountController extends Controller
             $sort='account_num';
         }
         $accounts = Account::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(10);
+    
+
 
         return view('account.account_list',['items' => $accounts]);
+    }
+
+    //バリテーション
+    public function postlist(Request $request){
+        $division_id = $request -> division_id ;
+        //入力したnumを数字にする処理
+        $account_num = $request->account_num;
+        $account_name = $request->account_name;
+        $account_note = $request->account_note;
+        $query = Account::where('member_id',Auth::id());
+        if(!($division_id == 'all')){
+            $query->where('division_id','like','%'. $division_id . '%');
+        }
+
+        if(!empty($account_num)){
+            $query->where('account_num','like','%'. $account_num . '%');
+        }
+
+        if(!empty($account_name)){
+            $query->where('account_name','like','%'. $account_name . '%');
+        }
+
+        if(!empty($account_note)){
+            $query->where('account_note','like','%'. $account_note . '%');
+        }
+
+       $accounts= $query->simplePaginate(10);
+       $count = count($accounts);
+
+        return view('account.account_list',['items' => $accounts,'count'=>$count]);
     }
 
     //

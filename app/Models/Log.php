@@ -25,7 +25,7 @@ class Log extends Model
         'withdrawal_date',
     ];
 
-    protected function account(){
+    public function account(){
         return $this->belongsTo('App\Models\Account','account_id');
     }
 

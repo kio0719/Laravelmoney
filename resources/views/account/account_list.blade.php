@@ -3,8 +3,26 @@
 @section('title','勘定科目一覧')
 
 @section('content')
+<p><a href="{{route('account.getregistar')}}"><input type="button"value="勘定科目登録"></a></p>
+<form action="{{route('account.postlist')}}" method="post" >
+    @csrf
+<ul>
+    
+    <li>収支区分：<select name="division_id">
+    <option hidden></option>
+    <option value="1">収入</option>
+    <option value="2">支出</option>
+    <option value="all">all</option>
+</select></li>
+<li>勘定科目番号：<input type="text" name="account_num"></li>
+<li>勘定科目名：<input type="text" name="account_name"></li>
+<li>備考：<input type="text" name="account_note"></li>
 
-
+</ul>
+<input type="submit" value="search">
+</form>
+<hr>
+<p>{{$count}}件の検索結果</p>
 <p>{{session('msg')}}</p><br>
 <!--<form action="./check" method="POST">
 @csrf-->
@@ -31,10 +49,8 @@
    @endforeach
 </table>
 {{$items->links()}}
-<p><a href="{{route('account.getregistar')}}"><input type="button"value="勘定科目登録"></a>
-@else
-    <p>勘定科目が登録されていません。</p>
-    <p><a href="{{route('account.getregistar')}}">勘定科目登録を行う</a></p>
+
+
    @endif
 
 

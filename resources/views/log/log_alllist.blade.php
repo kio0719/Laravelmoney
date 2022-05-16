@@ -16,8 +16,8 @@
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
 -->
 <td><a href="{{route('log.getdetail',['alllog_select' => $item['log_id'] ])}}"><input type="button" value="詳細"></a></td> 
-        <td>{{$item['use_date']}}</td>    
-        <td>{{$item['withdrawal_date']}}</td>
+        <td>{{$item['use_date']->format('Y-m-d')}}</td>    
+        <td>{{$item['withdrawal_date']->format('Y-m-d')}}</td>
         <td>{{$item->getDivisionName()}}</td>
         <td>{{$item->account->account_name}}</td>
         <td>{{number_format($item['amount'])}}円</td>

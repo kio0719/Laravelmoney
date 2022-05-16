@@ -25,6 +25,10 @@ class Account extends Model
         return $this->belongsTo('App\Models\Division','division_id');
     }
 
+    public function log(){
+        return $this->hasMany('App\Models\Log','account_id');
+    }
+
     public function getdivision(){
         return $this->division->division_name;
     }

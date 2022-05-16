@@ -112,44 +112,75 @@ class LogController extends Controller
 
     public function getatList(Request $request){
         $logs = collect([]);
-        $divisions = Division::all();
+    //    $divisions = Division::all();
+        $accounts = Account::where('member_id',Auth::id())->get();
 
-        return view('log.log_atlist',['items'=>$logs,'divisions'=>$divisions,'count'=>'','dateb'=>' ','datea'=>' ']);
+        return view('log.log_atlist',['items'=>$logs,'accounts'=>$accounts,'count'=>'','dateb'=>' ','datea'=>' ']);
     }
 
     public function postatList(Request $request){
 
-//         $division_id = $request->division_id;
-//         $keyword = $request->keyword;
-//         $dateb = $request->dateb;
-//         $datea = $request->datea;
-//         if(!$dateb){
-//             $dateb = Carbon::now();
-//             $dateb = date_format($dateb,'Y-m-d');
-//         }
-//         if(!$datea){
-//             $datea = Carbon::now();
-//             $datea = date_format($datea,'Y-m-d');
+    //　　収支区分
+    //    $division_id = $request->division_id;
+        $account_id = $request->account_id;
+    //    $keyword = $request->keyword;
+        $dateb = $request->dateb;
+        $datea = $request->datea;
+        if(!$dateb){
+            $dateb = Carbon::now();
+            $dateb = date_format($dateb,'Y-m-d');
+        }
+        if(!$datea){
+            $datea = Carbon::now();
+            $datea = date_format($datea,'Y-m-d');
             
-//         }
-
-//         $accountnam_id = Account::select('account_id')->where('member_id',Auth::id())->where('account_name','like','%' . $keyword . '%')->get();
+        }
+        //キーワード検索
+        // $accountnam_id = Account::select('account_id')->where('member_id',Auth::id())->where('account_name','like','%' . $keyword . '%')->get();
         
 
-//             if($division_id == 'all'){
-//             $logs = Log::where('member_id',Auth::id())->whereRaw('withdrawal_date >= ? and withdrawal_date <= ?',[$dateb,$datea])->where('account_id',$accountnam_id)->orWhere('log_note','like','%' . $keyword . '%')->orderBy('log_id','asc')->simplePaginate(10);
-//            $count = count($logs);
-//         }else{
-//             $accountdiv_id = Account::select('account_id')->where('member_id',Auth::id())->where('division_id',$division_id)->get();
-//             $logs = Log::where('member_id',Auth::id())->where('account_id',$accountdiv_id)->whereRaw('withdrawal_date >= ? and withdrawal_date <= ?',[$dateb,$datea])->where('account_id',$account_id)->orWhere('log_note','like','%' . $keyword . '%')->orderBy('log_id','asc')->simplePaginate(10);
-//            $count = count($logs);
-//         }
+        //     if($division_id == 'all'){
+        //     $logs = Log::where('member_id',Auth::id())->whereRaw('withdrawal_date >= ? and withdrawal_date <= ?',[$dateb,$datea])->where('account_id',$accountnam_id)->orWhere('log_note','like','%' . $keyword . '%')->orderBy('log_id','asc')->simplePaginate(10);
+        //    $count = count($logs);
+        // }else{
+        //     $accountdiv_id = Account::select('account_id')->where('member_id',Auth::id())->where('division_id',$division_id)->get();
+        //     $logs = Log::where('member_id',Auth::id())->where('account_id',$accountdiv_id)->whereRaw('withdrawal_date >= ? and withdrawal_date <= ?',[$dateb,$datea])->where('account_id',$account_id)->orWhere('log_note','like','%' . $keyword . '%')->orderBy('log_id','asc')->simplePaginate(10);
+        //    $count = count($logs);
+        // }
 
-//         if(!$count){
-//             $count == 0;
-//         }
-// //
-        return view('log.log_atlist',['items'=>$logs]);
+        // if(!$count){
+        //     $count == 0;
+        // }
+
+         //   $query = Log::with(['account.division'])->where('division_id','=',$division_id);
+
+    //        $query = Division::with(['account.log']);
+            $query = Log::where('member_id',Auth::id())->whereRaw('withdrawal_date >= ? and withdrawal_date <= ?',[$dateb,$datea]);
+
+    if(!($account_id == 'all')){
+        $query->where('account_id','=',$account_id);
+    }
+ //   $query = Log::with(['account.division'])->where('account_id','=',$account_id);
+      //      if(!($division_id == 'all')){
+        //        $query->with(['account.division'])->where('division_id','=',$division_id);
+        //    }
+
+        
+       $logs = $query->orderBy('log_id','asc')->simplePaginate(10);
+       $count = count($logs);
+       $sum = 0;
+       foreach($logs as $log){
+           $sum = $sum + $log['amount'];
+       }
+//      foreach($logs as $log)
+//      {$count = $log->getDivisionId();}
+
+       
+       //検索機能継続のため
+//       $divisions = Division::all();
+       $accounts = Account::where('member_id',Auth::id())->get();
+
+        return view('log.log_atlist',['items'=>$logs,'accounts'=>$accounts,'count'=>$count,'sum'=>$sum,'dateb'=>$dateb,'datea'=>$datea]);
     }
 //
 //

@@ -13,6 +13,10 @@ class Division extends Model
     protected $table = 'divisions';
     public $timestamps = false;
 
+    public function account(){
+        return $this->hasMany('App\Models\Account','account_id');
+    }
+
     public function getDivision(){
         return $this->division_id . ' : ' . $this->division_name ;
     }
