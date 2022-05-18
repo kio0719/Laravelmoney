@@ -7,6 +7,8 @@ use App\Models\Division;
 use App\Models\Account;
 use App\Http\Requests\AccountRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator; 
 
 class AccountController extends Controller
 {
@@ -78,24 +80,55 @@ class AccountController extends Controller
     //
 
     public function getlist(Request $request){
-        $sort = $request->sort;
-        if(!$sort){
-            $sort='account_num';
-        }
-        $accounts = Account::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(10);
-    
+        // $sorttype = $request->sortype;
+        // if(!$sorttype){
+        //     $sorttype='account_num';
+        // }
 
 
-        return view('account.account_list',['items' => $accounts]);
-    }
+        
+//         $accounts = Account::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(10);
+//     if($request->session()->has('account_list2')){
+//         $query = $request->session()->get('account_list2');
+//         $accounts = $query->orderBy($sort,'asc')->simplePaginate(10);;
+//         $count = count($accounts);
+//     }else{
+//         $accounts=[];
+//         $count='';
+//     }
 
-    //バリテーション
-    public function postlist(Request $request){
+//$msg = count($accounts) . '件の検索結果;
+
+    //     return view('account.account_list',['items' => $accounts,'count'=>$count]);
+    //  }
+
+    // //バリテーション
+ //    public function postlist(Request $request){
+
+        //session取り出す
+         $method = $request->method();
+         $at_find = $request->session()->get('at_find');
+         if($method == "POST"){
         $division_id = $request -> division_id ;
-        //入力したnumを数字にする処理
         $account_num = $request->account_num;
         $account_name = $request->account_name;
         $account_note = $request->account_note;
+         }elseif($method == "GET"){
+             if(isset($at_find)){
+            $division_id = $at_find['division_id'];
+            $account_num = $at_find['account_num'];
+            $account_name = $at_find['account_name'];
+            $account_note = $at_find['account_note'];
+             }else{
+                 $division_id = 'all';
+                 $account_num = '';
+                 $account_name = '';
+                 $account_note = '';
+             }
+         }
+         $request->session()->forget('at_find');
+
+
         $query = Account::where('member_id',Auth::id());
         if(!($division_id == 'all')){
             $query->where('division_id','like','%'. $division_id . '%');
@@ -113,10 +146,27 @@ class AccountController extends Controller
             $query->where('account_note','like','%'. $account_note . '%');
         }
 
-       $accounts= $query->simplePaginate(10);
+   //    $accounts= $query->orderBy($sorttype,'asc')->paginate(3);
+        $accounts= $query->sortable()->paginate(3);
+   //    $total=$accounts->total();
+     
        $count = count($accounts);
 
-        return view('account.account_list',['items' => $accounts,'count'=>$count]);
+       $request->session()->put('at_find',[
+           'division_id' => $division_id,
+           'account_num' => $account_num,
+           'account_name' => $account_name,
+           'account_note' => $account_note,
+       ]);
+
+        return view('account.account_list')->with([
+        'items' => $accounts,
+        'count'=>$count,
+        'division_id' => $division_id,
+        'account_num' => $account_num,
+        'account_name' => $account_name,
+        'account_note' => $account_note,
+        ]);
     }
 
     //

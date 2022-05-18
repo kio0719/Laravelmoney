@@ -4,36 +4,47 @@
 
 @section('content')
 <p><a href="{{route('account.getregistar')}}"><input type="button"value="勘定科目登録"></a></p>
-<form action="{{route('account.postlist')}}" method="post" >
-    @csrf
-<ul>
-    
-    <li>収支区分：<select name="division_id">
-    <option hidden></option>
-    <option value="1">収入</option>
-    <option value="2">支出</option>
-    <option value="all">all</option>
-</select></li>
-<li>勘定科目番号：<input type="text" name="account_num"></li>
-<li>勘定科目名：<input type="text" name="account_name"></li>
-<li>備考：<input type="text" name="account_note"></li>
 
-</ul>
-<input type="submit" value="search">
-</form>
+
+{{ Form::open(['route'=>'account.getlist']) }}
+    
+<dl>
+
+    <dt>{{Form::label('division_id','収支区分')}}</dt>
+    <dd>
+        {{Form::select('division_id', ['1'=>'収入','2'=> '支出','all'=> 'all'],$division_id)}}
+    </dd>
+<dt>{{Form::label('account_num','勘定科目番号')}}</dt>
+<dd>{{Form::text('account_num',$account_num)}}</dd>
+<dt>{{Form::label('account_name','勘定科目名')}}</dt>
+
+<dd>{{Form::text('account_name',$account_name)}}
+    
+</dd>
+<dt>{{Form::label('account_note','備考')}}</dt>
+<dd>{{Form::text('account_note',$account_note)}}
+{{Form::submit('search', ['name' => 'search', 'class' => 'btn btn-primary', 'onfocus' => 'this.blur();'])}}
+
+</dd>
+</dl>
+{{ Form::close() }}
 <hr>
 <p>{{$count}}件の検索結果</p>
 <p>{{session('msg')}}</p><br>
 <!--<form action="./check" method="POST">
 @csrf-->
-@if(!($items->isEmpty()))
+
+
+
+<!--リスト表示-->
+@if($count>0)
 <table>
     <tr>
         <th></th>
-        <th><a href="{{route('account.getlist',[ 'sort' => 'account_num' ] ) }}">勘定科目番号</a></th>
-        <th><a href="{{route('account.getlist',[ 'sort' => 'division_id' ] )}}">収支区分</a></th>
-        <th><a href="{{route('account.getlist',[ 'sort' => 'account_name' ] )}}">勘定科目名</a></th>
-        <th><a href="{{route('account.getlist',[ 'sort' => 'account_note' ] )}}">備考</a></th>
+        <th>@sortablelink('account_num','勘定科目番号')</th>
+        <th>@sortablelink('division_id','収支区分')</a></th>
+        <th>@sortablelink('account_name','勘定科目名')</a></th>
+        <th>@sortablelink('account_note','備考')</a></th>
     </tr>
     @foreach($items as $item)
     <tr>
@@ -48,7 +59,12 @@
     </tr>
    @endforeach
 </table>
-{{$items->links()}}
+<article>
+<p>{{$items->links('vendor.pagination.default')}}</p>
+<p>全{{$items->lastpage()}}ページ中、{{$items -> currentPage()}}ページめを表示。全{{$items->total()}}件中@if($items -> firstItem() != $items -> lastItem() ) {{$items-> firstItem()}}件目から{{$items -> lastItem()}}件目まで表示 @else {{$items -> firstItem()}}件目を表示 @endif</p>
+
+
+</article>
 
 
    @endif
