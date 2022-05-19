@@ -3,10 +3,14 @@
 @section('title','勘定科目一覧')
 
 @section('content')
-<p><a href="{{route('account.getregistar')}}"><input type="button"value="勘定科目登録"></a></p>
-
-
 {{ Form::open(['route'=>'account.getlist']) }}
+
+<input type="submit" name="registar" value="registar">
+<input type="submit" name="change" value="change">
+<input type="submit" name="delete" value="delete">
+
+
+
     
 <dl>
 
@@ -27,7 +31,7 @@
 
 </dd>
 </dl>
-{{ Form::close() }}
+
 <hr>
 <p>{{$count}}件の検索結果</p>
 <p>{{session('msg')}}</p><br>
@@ -37,7 +41,7 @@
 
 
 <!--リスト表示-->
-@if($count>0)
+@if($items->total() > 0)
 <table>
     <tr>
         <th></th>
@@ -50,8 +54,7 @@
     <tr>
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
 -->
-<td><a href="{{route('account.getchange',['account_select' => $item['account_id'] ])}}"><input type="button" value="変更する"></a> | 
-<a href="{{route('account.getdelete',['account_select' => $item['account_id'] ])}}"><input type="button" value="削除する"></a></td>     
+<td><input type="radio" name="account_select" value="{{$item['account_id']}}">   
         <td>{{$item['account_num']}}</td>
         <td>{{$item->getDivision()}}</td>
         <td>{{$item['account_name']}}</td>
@@ -72,7 +75,7 @@
 
 <p><a href="{{route('user.profile')}}"><input type="button"value="戻る"></a></p>
 
-
+{{ Form::close() }}
 <!--</form>-->
 
 @endsection

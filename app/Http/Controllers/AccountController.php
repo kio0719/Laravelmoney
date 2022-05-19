@@ -20,7 +20,7 @@ class AccountController extends Controller
     //
     //
 
-    public function getRegistar(Request $request){
+    public function getRegistar(){
         $divisions= Division::all();
         return view('account.account_registar',['divisions'=>$divisions]);
     }
@@ -79,33 +79,109 @@ class AccountController extends Controller
     //
     //
 
-    public function getlist(Request $request){
-        // $sorttype = $request->sortype;
-        // if(!$sorttype){
-        //     $sorttype='account_num';
-        // }
+//     public function getlist(Request $request){
+//         // $sorttype = $request->sortype;
+//         // if(!$sorttype){
+//         //     $sorttype='account_num';
+//         // }
 
 
         
-//         $accounts = Account::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(10);
-//     if($request->session()->has('account_list2')){
-//         $query = $request->session()->get('account_list2');
-//         $accounts = $query->orderBy($sort,'asc')->simplePaginate(10);;
-//         $count = count($accounts);
-//     }else{
-//         $accounts=[];
-//         $count='';
+// //         $accounts = Account::where('member_id',Auth::id())->orderBy($sort,'asc')->simplePaginate(10);
+// //     if($request->session()->has('account_list2')){
+// //         $query = $request->session()->get('account_list2');
+// //         $accounts = $query->orderBy($sort,'asc')->simplePaginate(10);;
+// //         $count = count($accounts);
+// //     }else{
+// //         $accounts=[];
+// //         $count='';
+// //     }
+
+// //$msg = count($accounts) . '件の検索結果;
+
+//     //     return view('account.account_list',['items' => $accounts,'count'=>$count]);
+//     //  }
+
+//     // //バリテーション
+//  //    public function postlist(Request $request){
+
+//         //session取り出す
+//          $method = $request->method();
+//          $at_find = $request->session()->get('at_find');
+//          if($method == "POST"){
+//         $division_id = $request -> division_id ;
+//         $account_num = $request->account_num;
+//         $account_name = $request->account_name;
+//         $account_note = $request->account_note;
+//          }elseif($method == "GET"){
+//              if(isset($at_find)){
+//             $division_id = $at_find['division_id'];
+//             $account_num = $at_find['account_num'];
+//             $account_name = $at_find['account_name'];
+//             $account_note = $at_find['account_note'];
+//              }else{
+//                  $division_id = 'all';
+//                  $account_num = '';
+//                  $account_name = '';
+//                  $account_note = '';
+//              }
+//          }
+//          $request->session()->forget('at_find');
+
+
+//         $query = Account::where('member_id',Auth::id());
+//         if(!($division_id == 'all')){
+//             $query->where('division_id','like','%'. $division_id . '%');
+//         }
+
+//         if(!empty($account_num)){
+//             $query->where('account_num','like','%'. $account_num . '%');
+//         }
+
+//         if(!empty($account_name)){
+//             $query->where('account_name','like','%'. $account_name . '%');
+//         }
+
+//         if(!empty($account_note)){
+//             $query->where('account_note','like','%'. $account_note . '%');
+//         }
+
+//    //    $accounts= $query->orderBy($sorttype,'asc')->paginate(3);
+//         $accounts= $query->sortable()->paginate(3);
+//    //    $total=$accounts->total();
+     
+//        $count = count($accounts);
+
+//        $request->session()->put('at_find',[
+//            'division_id' => $division_id,
+//            'account_num' => $account_num,
+//            'account_name' => $account_name,
+//            'account_note' => $account_note,
+//        ]);
+
+//         return view('account.account_list')->with([
+//         'items' => $accounts,
+//         'count'=>$count,
+//         'division_id' => $division_id,
+//         'account_num' => $account_num,
+//         'account_name' => $account_name,
+//         'account_note' => $account_note,
+//         ]);
 //     }
 
-//$msg = count($accounts) . '件の検索結果;
+    public function getlist(Request $request){
+        if($request->has('change')){
+        //    $account_select = $request->account_select;
+       //     return redirect()->route('account.getchange')->with(compact('account_select'));
+       return $this -> getChange($request);
+    }
+    if($request->has('delete')){
+        return $this->getdelete($request);
+    }
+    if($request->has('registar')){
+        return $this->getregistar();
+    }
 
-    //     return view('account.account_list',['items' => $accounts,'count'=>$count]);
-    //  }
-
-    // //バリテーション
- //    public function postlist(Request $request){
-
-        //session取り出す
          $method = $request->method();
          $at_find = $request->session()->get('at_find');
          if($method == "POST"){
@@ -146,9 +222,9 @@ class AccountController extends Controller
             $query->where('account_note','like','%'. $account_note . '%');
         }
 
-   //    $accounts= $query->orderBy($sorttype,'asc')->paginate(3);
+
         $accounts= $query->sortable()->paginate(3);
-   //    $total=$accounts->total();
+
      
        $count = count($accounts);
 
@@ -177,7 +253,8 @@ class AccountController extends Controller
     //
     //
 
-    public function getChange(Request $request,$account_select){
+    public function getChange(Request $request){
+        $account_select=$request->account_select;
         $request->session()->put('account_select',$account_select);
         $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
         if(!$account){
@@ -211,7 +288,8 @@ class AccountController extends Controller
     //
     //
 
-    public function getDelete(Request $request,$account_select){
+    public function getDelete(Request $request){
+        $account_select = $request->account_select;
         $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
         if(!$account){
             return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
