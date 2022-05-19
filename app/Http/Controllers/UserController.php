@@ -103,7 +103,8 @@ class UserController extends Controller
         }
     }
 
-    public function getprofile(){
+    public function getprofile(Request $request){
+        $request->session()->forget('at_find');
         return view('user.profile');
     }
 

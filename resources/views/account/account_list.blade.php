@@ -33,7 +33,7 @@
 </dl>
 
 <hr>
-<p>{{$count}}件の検索結果</p>
+
 <p>{{session('msg')}}</p><br>
 <!--<form action="./check" method="POST">
 @csrf-->
@@ -42,6 +42,7 @@
 
 <!--リスト表示-->
 @if($items->total() > 0)
+<p>全{{$items->total()}}件</p>
 <table>
     <tr>
         <th></th>
@@ -64,13 +65,15 @@
 </table>
 <article>
 <p>{{$items->links('vendor.pagination.default')}}</p>
-<p>全{{$items->lastpage()}}ページ中、{{$items -> currentPage()}}ページめを表示。全{{$items->total()}}件中@if($items -> firstItem() != $items -> lastItem() ) {{$items-> firstItem()}}件目から{{$items -> lastItem()}}件目まで表示 @else {{$items -> firstItem()}}件目を表示 @endif</p>
-
+<hr>
 
 </article>
+@elseif(($items->total() == 0))
+<p>全{{$items->total()}}件</p>
+<hr>
+@endif
 
 
-   @endif
 
 
 <p><a href="{{route('user.profile')}}"><input type="button"value="戻る"></a></p>
