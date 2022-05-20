@@ -254,29 +254,55 @@ class AccountController extends Controller
     //
 
     public function getChange(Request $request){
-        $account_select=$request->account_select;
-        $request->session()->put('account_select',$account_select);
-        $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
-        if(!$account){
+        $account_selects=$request->account_selects;
+        $request->session()->put('account_selects',$account_selects);
+        $query = Account::where('member_id',Auth::id());
+        if(is_countable($account_selects)){
+        $query = $query -> where(function($query) use($account_selects){
+            foreach($account_selects as $account_select){
+                $query->orwhere('account_id',$account_select);
+            }
+        });
+    }else{
+        return redirect()->route('account.getlist')->with(['msg'=>'科目が選択されていません。']);       
+    }
+    $accounts = $query->get();
+ //       $accounts = Account::where('account_id',$account_selects)->where('member_id',Auth::id())->first();
+        
+        if(!$accounts){
             return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
         $divisions = Division::all();
         
-        return view('account.account_change',['item'=>$account,'divisions'=>$divisions]);
+       return view('account.account_change',['items'=>$accounts,'divisions'=>$divisions]);
+ //    return view('account.pra',['items'=>$accounts]);
     }
 
     public function postChange(Request $request){
-        $sessdata = $request->session()->get('account_select');
-        if(!$sessdata){
+        $sessdatas = $request->session()->get('account_selects');
+
+        if(!$sessdatas){
             return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
-        $account = Account::find($sessdata);
-        $form = $request->all();
-        unset($form['__token']);
-        $account->fill($form)->save();
+        $i=0;
+        foreach($sessdatas as  $sessdata){
+         $account = Account::find($sessdata);
+        // $form = $request->all();
+        // unset($form['__token']);
+        // $account->fill($form)->save();
+            $account->account_num = $request->input('account_num')[$i];
+            $account->account_name = $request->input('account_name')[$i];
+            $account->division_id = $request->input('division_id')[$i];
+            $account->account_note = $request->input('account_note')[$i];
 
-        $request->session()->forget('account_select');
 
+        $account->save();
+        $i++;
+        }
+
+        $request->session()->forget('account_selects');
+
+     //   return view('account.pra',['items'=>$sessdata]);
         return redirect()->route('account.getlist')->with(['msg'=>'登録内容を変更しました。']);
     }
     

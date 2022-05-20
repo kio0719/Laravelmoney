@@ -55,7 +55,7 @@
     <tr>
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
 -->
-<td><input type="radio" name="account_select" value="{{$item['account_id']}}">   
+<td><input type="checkbox" name="account_selects[]" value="{{$item['account_id']}}">   
         <td>{{$item['account_num']}}</td>
         <td>{{$item->getDivision()}}</td>
         <td>{{$item['account_name']}}</td>
