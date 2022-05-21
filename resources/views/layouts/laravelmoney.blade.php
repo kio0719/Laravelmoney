@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya&display=swap" rel="stylesheet">
+ <style>
         html{font-size:100%;
         }
         body{font-family:"Yu Gothic Medium","游ゴシック Medium",YuGothic,"游ゴシック体","ヒラギノ角ゴ Pro W3",sans-serif;
@@ -33,6 +36,9 @@
         color:#fff;
         font-size:0.875rem
     }
+    .sub-title{
+        font-family: 'Alegreya', serif;
+    }
     .wrapper{
         max-width:1100px;
         margin:0 auto;
@@ -41,6 +47,7 @@
     .title{
         padding-top:30px;
         text-align: center;
+        font-family: 'Alegreya', serif;
     }
     .errorMessage{
         color:red;
@@ -62,7 +69,7 @@
     <h1 class="title">LaravelMoney</h1>
     </div>
 </header>
-<h2>@yield('title')</h2>
+<h2 class="sub-title ml-3">@yield('title')</h2>
 
 <main>
 @yield('content')

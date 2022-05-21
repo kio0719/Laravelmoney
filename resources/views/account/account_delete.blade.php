@@ -12,15 +12,11 @@
 @foreach($items as $item)
 <table>
 
-    <tr><th>勘定科目番号</th><td>{{$item['account_num']}}</td></tr>
+    <tr><th>勘定科目番号</th><th>収支区分</th><th>勘定科目名</th><th>備考</th></tr>
 
-    <tr><th>収支区分</th><td>{{$item->Division->division_name}}</td></tr>
+    <tr><td>{{$item['account_num']}}</td><td>{{$item->Division->division_name}}</td><td>{{$item['account_name']}}</td><td>{{$item['account_note']}}</td></tr>
 
 
-    <tr><th>勘定科目名</th><td>{{$item['account_name']}}</td></tr>
-    
-
-    <tr><th>備考</th><td>{{$item['account_note']}}</td></tr>
 
 </table>
 @endforeach
