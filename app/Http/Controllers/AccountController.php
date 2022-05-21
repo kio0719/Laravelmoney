@@ -255,7 +255,7 @@ class AccountController extends Controller
 
     public function getChange(Request $request){
         $account_selects=$request->account_selects;
-        $request->session()->put('account_selects',$account_selects);
+
         $query = Account::where('member_id',Auth::id());
         if(is_countable($account_selects)){
         $query = $query -> where(function($query) use($account_selects){
@@ -273,6 +273,8 @@ class AccountController extends Controller
             return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
         $divisions = Division::all();
+
+        $request->session()->put('account_selects',$account_selects);
         
        return view('account.account_change',['items'=>$accounts,'divisions'=>$divisions]);
  //    return view('account.pra',['items'=>$accounts]);
@@ -315,24 +317,39 @@ class AccountController extends Controller
     //
 
     public function getDelete(Request $request){
-        $account_select = $request->account_select;
-        $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
-        if(!$account){
+        $account_selects = $request->account_selects;
+    //    $account = Account::where('account_id',$account_select)->where('member_id',Auth::id())->first();
+        $query = Account::where('member_id',Auth::id());
+        if(is_countable($account_selects)){
+            $query = $query->where(function($query) use($account_selects){
+                foreach($account_selects as $account_select){
+                $query->orwhere('account_id',$account_select);
+                }
+            });
+        }else{
             return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
-        $request->session()->put('account_delete_data',$account_select);
+        $accounts = $query->get();
 
-        return view('account.account_delete',['item'=>$account]);
+        if(!$accounts){
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
+        }
+
+        $request->session()->put('account_delete_datas',$account_selects);
+
+        return view('account.account_delete',['items'=>$accounts]);
     }
 
     public function postDelete(Request $request){
-        $sessdata = $request->session()->get('account_delete_data');
-        if(!$sessdata){
+        $sessdatas = $request->session()->get('account_delete_datas');
+        if(!$sessdatas){
             return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
+        foreach($sessdatas as $sessdata){
         Account::find($sessdata)->delete();
+        }
 
-        $request->session()->forget('account_delete_data');
+        $request->session()->forget('account_delete_datas');
 
         return redirect()->route('account.getlist')->with(['msg'=>'データを削除しました。']);
     }

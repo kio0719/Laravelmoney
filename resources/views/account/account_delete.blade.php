@@ -9,6 +9,7 @@
 
 <form action="./delete" method="POST">
 @csrf
+@foreach($items as $item)
 <table>
 
     <tr><th>勘定科目番号</th><td>{{$item['account_num']}}</td></tr>
@@ -22,6 +23,7 @@
     <tr><th>備考</th><td>{{$item['account_note']}}</td></tr>
 
 </table>
+@endforeach
 <input type="button" onclick="history.back()" value="戻る"> | <input type="submit" value="削除">
 
 </form>
