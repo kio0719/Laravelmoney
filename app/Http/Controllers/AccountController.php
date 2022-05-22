@@ -54,7 +54,7 @@ class AccountController extends Controller
     public function postCheck(Request $request){
         $sessdata = $request->session()->get('accountdata');
         if(!$sessdata){
-            return redirect()->route('user.profile');
+            return redirect()->route('account.getlist')->with(['msg'=>'エラーが発生しました。もう一度お試しください。']);
         }
         $account = new Account([
             'member_id'=>Auth::id(),

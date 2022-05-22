@@ -1,30 +1,88 @@
 @extends('layouts.laravelmoney')
 
-@section('title','資産一覧')
+@section('title','Asset')
 
 @section('content')
+<div class="container-fluid">  
+{{ Form::open(['route'=>'asset.getlist']) }}
+<div class="row justify-content-end">
+    <div class=" btn-group ">
+        <input type="submit" name="registar" value="registar" class="col btn btn-primary mb-3">
+        <input type="submit" name="change" value="change" class="col  btn btn-primary mb-3">
+        <input type="submit" name="delete" value="delete" class="col btn btn-primary mb-3">
+    </div>
+</div>
+
+<div class="row ">
+    <div class="col-sm mb-3 ">
+        {{Form::label('asset_type_id','資産種類',['class'=>'form-label'])}}
+        {{Form::select('asset_type_id', ['1'=>'現金','2'=> '預金','all'=> 'all'],$asset_type_id,['class'=>'form-control'])}}
+    </div>
+    <div class="col-sm mb-3">
+        {{Form::label('asset_num','資産番号',['class'=>'form-label'])}}
+        {{Form::text('asset_num',$asset_num,['class'=>'form-control'])}}
+    </div>
+
+    <div class="col-sm mb-3">
+        {{Form::label('asset_name','資産名',['class'=>'form-label'])}}
+        {{Form::text('asset_name',$asset_name,['class'=>'form-control'])}}
+    </div>
+    <div class="col-sm mb-3">
+        {{Form::label('balance','残高',['class'=>'form-label'])}}
+        {{Form::text('balance',$balance,['class'=>'form-control'])}}
+    </div>
+    <div class="col-sm mb-3">
+        {{Form::label('asset_note','備考',['class'=>'form-label'])}}
+        {{Form::text('asset_note',$asset_note,['class'=>'form-control'])}}
+    </div>
+
+</div>
+<div class="row justify-content-end">
+        {{Form::submit('search', ['name' => 'search', 'class' => 'btn btn-primary', 'onfocus' => 'this.blur();'])}}
+    </div>
 
 
-<p>{{session('msg')}}</p><br>
-<!--<form action="./check" method="POST">
-@csrf-->
-@if(!($items->isEmpty()))
-合計額:{{$balance_sum}} 円
-<table>
-    <tr>
+
+<hr>
+@if(session('flash_msg'))
+
+<div class="alert alert-warning " role="alert">
+{{session('flash_msg')}} 
+    </button>
+
+</div>
+ @endif
+
+ @if(session('dng_msg'))
+    <div class="alert alert-danger d-flex align-items-center" role="alert"> 
+    {{session('dng_msg')}}
+</div>
+ @endif
+
+ 
+ @if(session('war_msg'))
+    <div class="alert alert-warning d-flex align-items-center" role="alert"> 
+    {{session('war_msg')}}
+</div>
+ @endif
+
+@if($items->total() > 0)
+合計額:{{number_format($balance_sum)}} 円
+<div class="row mb-5">
+<table class="table">
+    <tr class="table-primary">
         <th></th>
-        <th><a href="{{route('asset.getlist',['sort'=>'asset_num'])}}">資産番号</a></th>
-        <th><a href="{{route('asset.getlist',['sort'=>'asset_type_id'])}}">資産の種類</a></th>
-        <th><a href="{{route('asset.getlist',['sort'=>'asset_name'])}}">資産名</a></th>
-        <th><a href="{{route('asset.getlist',['sort'=>'asset_balance'])}}">残高</a></th>
-        <th><a href="{{route('asset.getlist',['sort'=>'asset_note'])}}">備考</a></th>
+        <th>@sortablelink('asset_num','資産番号')</th>
+        <th>@sortablelink('asset_type_id','資産種類')</a></th>
+        <th>@sortablelink('asset_name','資産名')</a></th>
+        <th>@sortablelink('balance','残高')</a></th>
+        <th>@sortablelink('asset_note','備考')</a></th>
     </tr>
     @foreach($items as $item)
     <tr>
  <!--   <td><input type="radio" name="asset_select" value="{{$item['asset_id']}}"></td> 
 -->
-<td><a href="{{route('asset.getchange',['asset_select' => $item['asset_id'] ])}}"><input type="button" value="変更する"></a> | 
-<a href="{{route('asset.getdelete',['asset_select' => $item['asset_id'] ])}}"><input type="button" value="削除する"></a></td>     
+<td ><div class="form-check"><input type="checkbox" name="asset_selects[]" value="{{$item['asset_id']}}" class="form-check-input"></div></td>
         <td>{{$item['asset_num']}}</td>
         <td>{{$item->getAssetType()}}</td>
         <td>{{$item['asset_name']}}</td>
@@ -33,17 +91,23 @@
     </tr>
    @endforeach
 </table>
-{{$items->links()}}
-<p><a href="{{route('asset.getregistar')}}"><input type="button"value="資産登録"></a> </p>
-@else
-    <p>資産が登録されていません。</p>
-    <p><a href="{{route('asset.getregistar')}}">資産登録を行う</a></p>
-   @endif
+</div>
+<div class="row justify-content-center">
+<p>{{$items->links('vendor.pagination.default')}}</p>
+</div>
+<hr>
+
+@elseif(($items->total() == 0))
+    <p>該当する資産が登録されていません。</p>
+ @endif
 
 
+ <div class="row justify-content-end">
 <p><a href="{{route('user.profile')}}"><input type="button"value="戻る"></a></p>
+</div>
+{{ Form::close() }}
 
+</div>
 
-<!--</form>-->
 
 @endsection

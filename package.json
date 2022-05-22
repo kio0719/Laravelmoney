@@ -20,6 +20,20 @@
         "sass": "^1.32.11",
         "sass-loader": "^7.1.0",
         "vue": "^2.6.12",
-        "vue-template-compiler": "^2.6.12"
-    }
+        "vue-template-compiler": "^2.6.12",
+        "webpack": "^5.72.1",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.9.0"
+    },
+    "dependencies": {
+        "bootstrap-honoka": "^4.4.0",
+        "save": "^2.5.0",
+        "vue-loader": "^17.0.0"
+    },
+    "name": "laravelmoney",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/kio0719/Laravelmoney.git",
+    "author": "ioioio0719 <kio0719@docomo.ne.jp>",
+    "license": "MIT"
 }

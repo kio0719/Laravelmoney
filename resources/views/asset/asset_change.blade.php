@@ -11,20 +11,21 @@
 @endif
 <!-- -->
 
-<form action="./change" method="POST">
+{{ Form::open(['route'=>'asset.postchange']) }}
 @csrf
+@foreach($items as $item)
 <table>
 @error('asset_num')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
-    <tr><th>資産番号</th><td><input type="text" name="asset_num" value="{{$item['asset_num']}}"></td></tr>
+    <tr><th>資産番号</th><td><input type="text" name="asset_num[]" value="{{$item['asset_num']}}"></td></tr>
 
     @error('asset_type_id')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
     <tr><th>資産の種類</th>
     <td>
-        <select name="asset_type_id">
+        <select name="asset_type_id[]">
         @foreach($asset_types as $asset_type)
             <option value="{{$asset_type->asset_type_id}}">{{$asset_type->getAssetType()}}</option>
         @endforeach
@@ -34,21 +35,22 @@
     @error('asset_name')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
-    <tr><th>資産名</th><td><input type="text" name="asset_name" value="{{$item['asset_name']}}"></td></tr>
+    <tr><th>資産名</th><td><input type="text" name="asset_name[]" value="{{$item['asset_name']}}"></td></tr>
    
     @error('balance')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
-    <tr><th>残高</th><td><input type="text" name="balance"  value="{{$item['balance']}}">円</td></tr>
+    <tr><th>残高</th><td><input type="text" name="balance[]"  value="{{$item['balance']}}">円</td></tr>
  
     @error('asset_note')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
-    <tr><th>備考</th><td><textarea name="asset_note" cols="30" rows="10">{{$item['asset_note']}}</textarea></td></tr>
+    <tr><th>備考</th><td><textarea name="asset_note[]" cols="30" rows="10">{{$item['asset_note']}}</textarea></td></tr>
 
 </table>
+@endforeach
 <input type="button" onclick="history.back()" value="戻る"> | <input type="submit" name="変更する">
 
-</form>
+{{ Form::close() }}
 
 @endsection

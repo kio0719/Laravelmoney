@@ -68,6 +68,7 @@ Route::group(['prefix'=>'asset','middleware' => 'auth'],function(){
     Route::get('/check',[AssetController::class,'getcheck'])->name('asset.getcheck');
     Route::post('/check',[AssetController::class,'postcheck'])->name('asset.postcheck');
     Route::get('/list',[AssetController::class,'getList'])->name('asset.getlist');
+    Route::post('/list',[AssetController::class,'getList'])->name('asset.getlist');
     Route::get('/change/{asset_select?}',[AssetController::class,'getChange'])->name('asset.getchange');
     Route::post('/change/{asset_select?}',[AssetController::class,'postChange'])->name('asset.postchange');
     Route::get('/delete/{asset_select?}',[AssetController::class,'getdelete'])->name('asset.getdelete');

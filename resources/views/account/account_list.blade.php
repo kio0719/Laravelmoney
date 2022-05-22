@@ -44,14 +44,9 @@
 <hr>
 
 <p>{{session('msg')}}</p><br>
-<!--<form action="./check" method="POST">
-@csrf-->
 
-
-
-<!--リスト表示-->
 @if($items->total() > 0)
-<p>全{{$items->total()}}件の検索結果</p>
+<p>全{{$items->total()}}件</p>
 <div class="row mb-5">
 <table class="table">
     <tr class="table-primary">
@@ -80,7 +75,7 @@
 <hr>
 
 @elseif(($items->total() == 0))
-<p>全{{$items->total()}}件</p>
+<p>該当する勘定科目が登録されていません。</p>
 <hr>
 @endif
 
@@ -90,6 +85,6 @@
 <p><a href="{{route('user.profile')}}"><input type="button"value="戻る"></a></p>
 </div>
 {{ Form::close() }}
-<!--</form>-->
+
 </div>
 @endsection
