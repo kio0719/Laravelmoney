@@ -105,6 +105,8 @@ class UserController extends Controller
 
     public function getprofile(Request $request){
         $request->session()->forget('at_find');
+        $request->session()->forget('at_find');
+        $request->session()->forget('log_as_find');
         return view('user.profile');
     }
 

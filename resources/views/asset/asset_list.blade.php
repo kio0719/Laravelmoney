@@ -1,6 +1,6 @@
 @extends('layouts.laravelmoney')
 
-@section('title','Asset')
+
 
 @section('content')
 <div class="container-fluid">  
@@ -46,7 +46,7 @@
 <hr>
 @if(session('flash_msg'))
 
-<div class="alert alert-warning " role="alert">
+<div class="alert alert-success " role="alert">
 {{session('flash_msg')}} 
     </button>
 
@@ -73,10 +73,10 @@
     <tr class="table-primary">
         <th></th>
         <th>@sortablelink('asset_num','資産番号')</th>
-        <th>@sortablelink('asset_type_id','資産種類')</a></th>
-        <th>@sortablelink('asset_name','資産名')</a></th>
-        <th>@sortablelink('balance','残高')</a></th>
-        <th>@sortablelink('asset_note','備考')</a></th>
+        <th>@sortablelink('asset_type_id','資産種類')</th>
+        <th>@sortablelink('asset_name','資産名')</th>
+        <th>@sortablelink('balance','残高')</th>
+        <th>@sortablelink('asset_note','備考')</th>
     </tr>
     @foreach($items as $item)
     <tr>

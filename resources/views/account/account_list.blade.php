@@ -1,6 +1,6 @@
 @extends('layouts.laravelmoney')
 
-@section('title','Account')
+
 
 @section('content')
 <div class="container-fluid">  

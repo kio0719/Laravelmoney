@@ -1,5 +1,6 @@
-<div class="container mb-5">
-  <ul class="nav nav-tabs nav-fill">
+
+  <ul class="nav nav-tabs nav-fill navbar bg-dark navbar-dark">
+  <div class="container">
   <li class="nav-item"><a class="nav-link @if(Request::routeIs('user.profile')) active @endif" href="{{route('user.profile')}}">ホーム</a></li>
     <li class="nav-item"><a class="nav-link @if(Request::routeIs('log.getregistar')) active @endif" href="{{route('log.getregistar')}}">家計簿</a></li>
     <li class="nav-item"><a class="nav-link @if(Request::routeIs('asset.getlist')) active @endif" href="{{route('asset.getlist')}}">資産</a></li>
@@ -11,5 +12,7 @@
         <a class="dropdown-item @if(Request::routeIs('log.getatlist')) active @endif" href="{{route('log.getatlist')}}">入出金履歴</a>
         <a class="dropdown-item @if(Request::routeIs('log.getalllist')) active @endif" href="{{route('log.getalllist')}}">全体履歴</a>
       </div>
-    </li>
-</div>
+      </li>
+      </div>
+  </ul>
+    

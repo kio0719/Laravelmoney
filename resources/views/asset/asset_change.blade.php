@@ -1,10 +1,10 @@
 @extends('layouts.laravelmoney')
 
-@section('title','資産登録内容変更')
+
 
 @section('content')
 
-
+<div class="container-fluid">  
 <!--個々の部分コンポーネントにするといいかも -->
 @if(count($errors)>0)
 <p>入力に問題があります。再入力してください。</p>
@@ -12,9 +12,10 @@
 <!-- -->
 
 {{ Form::open(['route'=>'asset.postchange']) }}
-@csrf
+<div class="row justify-content-center py-4">
 @foreach($items as $item)
-<table>
+<table class="table col-10">
+    <tr class="table-primary"><th colspan="2" class="text-center">変更内容</th></tr>
 @error('asset_num')
     <tr><th></th><td>{{$message}}</td></tr>
     @enderror
@@ -48,9 +49,17 @@
     <tr><th>備考</th><td><textarea name="asset_note[]" cols="30" rows="10">{{$item['asset_note']}}</textarea></td></tr>
 
 </table>
+</div>
 @endforeach
-<input type="button" onclick="history.back()" value="戻る"> | <input type="submit" name="変更する">
 
+<div class="row justify-content-end">
+    <div class=" btn-group  mb-3">
+    <a class="btn btn-primary" href="javascript:history.back();">back</a>
+        <input type="submit" name="change" value="change" class="col  btn btn-primary">
+
+    </div>
+</div>
 {{ Form::close() }}
 
+</div>
 @endsection

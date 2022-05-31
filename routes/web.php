@@ -105,15 +105,17 @@ Route::group(['prefix'=>'log','middleware'=>'auth'],function(){
   Route::get('/registar',[LogController::class,'getRegistar'])->name('log.getregistar');
   Route::post('/registar',[LogController::class,'postRegistar'])->name('log.postregistar');
   Route::get('/atlist',[LogController::class,'getatlist'])->name('log.getatlist');
-  Route::post('/atlist',[LogController::class,'postatlist'])->name('log.postatlist');
+  Route::post('/atlist',[LogController::class,'getatlist'])->name('log.getatlist');
 
   Route::get('/aslist',[LogController::class,'getaslist'])->name('log.getaslist');
-  Route::post('/aslist',[LogController::class,'postaslist'])->name('log.postaslist');
+  Route::post('/aslist',[LogController::class,'getaslist'])->name('log.getaslist');
 
   Route::get('/alllist',[LogController::class,'getalllist'])->name('log.getalllist');
+  Route::post('/alllist',[LogController::class,'getalllist'])->name('log.getalllist');
+
   Route::get('/detail/{log_select?}',[LogController::class,'getdetail'])->name('log.getdetail');
-  Route::post('/dettail/{log_select?}',[LogController::class,'postdetail'])->name('log.postdetail');  
-  Route::get('/change/{log_select?}',[LogController::class,'getchange'])->name('log.getchange');
+  Route::post('/detail/{log_select?}',[LogController::class,'getdetail'])->name('log.getdetail');  
+  Route::get('/change/{log_select}',[LogController::class,'getchange'])->name('log.getchange');
   Route::post('/change/{log_select?}',[LogController::class,'postchange'])->name('log.postchange');  
   Route::get('/delete/{log_select?}',[LogController::class,'getdelete'])->name('log.getdelete');
   Route::post('/delete/{log_select?}',[LogController::class,'postdelete'])->name('log.postdelete');

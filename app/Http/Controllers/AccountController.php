@@ -223,10 +223,9 @@ class AccountController extends Controller
         }
 
 
-        $accounts= $query->sortable()->paginate(5);
+        $accounts= $query->sortable()->paginate(10);
 
-     
-       $count = count($accounts);
+
 
        $request->session()->put('at_find',[
            'division_id' => $division_id,
@@ -237,7 +236,6 @@ class AccountController extends Controller
 
         return view('account.account_list')->with([
         'items' => $accounts,
-        'count'=>$count,
         'division_id' => $division_id,
         'account_num' => $account_num,
         'account_name' => $account_name,
